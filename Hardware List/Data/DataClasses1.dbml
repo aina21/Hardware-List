@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="HardWare" Class="DataClasses1DataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=localhost;Initial Catalog=HardWare;Integrated Security=True" SettingsObjectName="fatemeh_HardWare.Properties.Settings" SettingsPropertyName="HardWareConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.tblGroup" Member="tblGroups">
+    <Type Name="tblGroup">
+      <Column Name="group_code" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="group_name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="tblGroup_tblPerson" Member="tblPersons" ThisKey="group_code" OtherKey="group_code" Type="tblPerson" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblBuilding" Member="tblBuildings">
+    <Type Name="tblBuilding">
+      <Column Name="building_code" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="building_name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="tblBuilding_tblPerson_Room" Member="tblPerson_Rooms" ThisKey="building_code" OtherKey="bulding_code" Type="tblPerson_Room" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblPerson_Room" Member="tblPerson_Rooms">
+    <Type Name="tblPerson_Room">
+      <Column Name="room_code" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="bulding_code" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="person_code" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="tblBuilding_tblPerson_Room" Member="tblBuilding" ThisKey="bulding_code" OtherKey="building_code" Type="tblBuilding" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="tblPerson_tblPerson_Room" Member="tblPerson" ThisKey="person_code" OtherKey="person_code" Type="tblPerson" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblPerson" Member="tblPersons">
+    <Type Name="tblPerson">
+      <Column Name="person_code" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="person_name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="person_lastName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="person_dakheli" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="group_code" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="person_password" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="person_maneger" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="person_fireezing" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="tblPerson_tblPerson_Room" Member="tblPerson_Room" ThisKey="person_code" OtherKey="person_code" Type="tblPerson_Room" Cardinality="One" />
+      <Association Name="tblPerson_tblReport" Member="tblReports" ThisKey="person_code" OtherKey="Person_code" Type="tblReport" />
+      <Association Name="tblGroup_tblPerson" Member="tblGroup" ThisKey="group_code" OtherKey="group_code" Type="tblGroup" IsForeignKey="true" DeleteRule="CASCADE" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblState" Member="tblStates">
+    <Type Name="tblState">
+      <Column Name="state_code" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="state_name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="tblState_tblEquipment" Member="tblEquipments" ThisKey="state_code" OtherKey="state_code" Type="tblEquipment" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblWarranty" Member="tblWarranties">
+    <Type Name="tblWarranty">
+      <Column Name="warranty_code" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="warranty_name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="warranty_start" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="warranty_end" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="tblWarranty_tblEquipment" Member="tblEquipments" ThisKey="warranty_code" OtherKey="warranty_code" Type="tblEquipment" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblHardware" Member="tblHardwares">
+    <Type Name="tblHardware">
+      <Column Name="hardware_code" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="hardware_name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="tblHardware_tblEquipment" Member="tblEquipments" ThisKey="hardware_code" OtherKey="hardware_code" Type="tblEquipment" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblEquipment" Member="tblEquipments">
+    <Type Name="tblEquipment">
+      <Column Name="equipment_code" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="hardware_code" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="equipment_model" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="warranty_code" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="state_code" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="equipment_freez" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="tblEquipment_tblReport" Member="tblReports" ThisKey="equipment_code" OtherKey="Equimpment_code" Type="tblReport" />
+      <Association Name="tblEquipment_tblSystem" Member="tblSystem" ThisKey="equipment_code" OtherKey="equipment_code" Type="tblSystem" Cardinality="One" />
+      <Association Name="tblHardware_tblEquipment" Member="tblHardware" ThisKey="hardware_code" OtherKey="hardware_code" Type="tblHardware" IsForeignKey="true" DeleteRule="CASCADE" />
+      <Association Name="tblState_tblEquipment" Member="tblState" ThisKey="state_code" OtherKey="state_code" Type="tblState" IsForeignKey="true" DeleteRule="CASCADE" />
+      <Association Name="tblWarranty_tblEquipment" Member="tblWarranty" ThisKey="warranty_code" OtherKey="warranty_code" Type="tblWarranty" IsForeignKey="true" DeleteRule="CASCADE" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblReport" Member="tblReports">
+    <Type Name="tblReport">
+      <Column Name="report_code" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Person_code" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Equimpment_code" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Data" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Tozihat" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Association Name="tblEquipment_tblReport" Member="tblEquipment" ThisKey="Equimpment_code" OtherKey="equipment_code" Type="tblEquipment" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="tblPerson_tblReport" Member="tblPerson" ThisKey="Person_code" OtherKey="person_code" Type="tblPerson" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblSystem" Member="tblSystems">
+    <Type Name="tblSystem">
+      <Column Name="system_code" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="equipment_code" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="tblEquipment_tblSystem" Member="tblEquipment" ThisKey="equipment_code" OtherKey="equipment_code" Type="tblEquipment" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+</Database>
